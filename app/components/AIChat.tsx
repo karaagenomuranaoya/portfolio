@@ -41,7 +41,7 @@ export default function AIChat() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage,
-          history: messages.filter(m => m.role !== "system"), // 必要に応じてフィルタリング
+          history: messages,
         }),
       });
 

@@ -26,7 +26,8 @@ const systemContext = `
 
 export async function POST(req: Request) {
   try {
-    const { message, history } = await req.json();
+    const { message, history = [] } = await req.json();
+    
 
     // 過去の会話履歴をフォーマット
     // Gemini SDKの形式に合わせる（user/model）
