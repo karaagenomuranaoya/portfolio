@@ -27,7 +27,7 @@ export default function Hero() {
         transition={{ delay: 0.3 }}
         className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-800 mb-6 max-w-4xl leading-tight"
       >
-        アプリ開発ひよっこ
+        ひよっこ個人開発者
         <br />
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-pink-500">
           野村直矢のポートフォリオ
