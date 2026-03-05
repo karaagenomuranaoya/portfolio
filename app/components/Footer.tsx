@@ -1,9 +1,23 @@
 "use client";
 
-// 1. Githubを削除し、Mailをインポート
-import { Mail } from "lucide-react";
+import { Mail, Check } from "lucide-react"; // Checkアイコンを追加
+import { useState } from "react";
 
 export default function Footer() {
+  const email = "nomura.naoya.jobsearch@gmail.com";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      // 2秒後にアイコンを元に戻す
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   return (
     <footer className="w-full bg-stone-100 border-t border-stone-200 py-12 text-stone-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -16,30 +30,28 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex space-x-6">
-          {/* 2. & 3. hrefをmailtoに変更し、アイコンをMailに変更 */}
-          {/* 下記のメールアドレスをご自身のものに書き換えてください */}
-          <SocialLink 
-            href="mailto:nomura.naoya.jobsearch@gmail.com" 
-            icon={<Mail size={20} />} 
-            label="Email" 
-          />
+        <div className="flex items-center gap-4">
+          <div className="relative flex flex-col items-center group">
+            {/* コピー完了メッセージ（ツールチップ） */}
+            {copied && (
+              <span className="absolute -top-10 bg-stone-800 text-white text-xs py-1 px-2 rounded shadow-sm animate-bounce">
+                Copied!
+              </span>
+            )}
+            
+            <button
+              onClick={handleCopy}
+              className="p-3 rounded-full bg-white hover:bg-orange-100 hover:text-orange-600 transition-all duration-300 border border-stone-200 hover:border-orange-200 flex items-center gap-2 group"
+              aria-label="Copy email address"
+            >
+              <span className="group-hover:scale-110 block transition-transform">
+                {copied ? <Check size={20} className="text-green-500" /> : <Mail size={20} />}
+              </span>
+              <span className="text-sm font-medium pr-1">{email}</span>
+            </button>
+          </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
-  return (
-    <a
-      href={href}
-      className="p-2 rounded-full bg-white hover:bg-orange-100 hover:text-orange-600 transition-all duration-300 border border-stone-200 hover:border-orange-200 group"
-      aria-label={label}
-    >
-      <span className="group-hover:scale-110 block transition-transform">
-        {icon}
-      </span>
-    </a>
   );
 }
