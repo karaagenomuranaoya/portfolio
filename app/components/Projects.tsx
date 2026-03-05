@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // 追加
 import { projects, Project } from "../data/projects";
 import ProjectCard from "./ProjectCard";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,52 +8,43 @@ import { X, Github, ExternalLink } from "lucide-react";
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const router = useRouter(); // 追加
 
-  const handleProjectClick = (project: Project) => {
-    // 「あつめる家計簿」の場合は個別ページへ遷移
-    if (project.id === "atsumeru") {
-      router.push("/projects/atsumeru");
-      return;
-    }
-    // それ以外はモーダルを開く
-    setSelectedProject(project);
-  };
+  // ▼▼▼ 修正：あつめる家計簿以外をフィルタリング ▼▼▼
+  const otherProjects = projects.filter(p => p.id !== "atsumeru");
 
   return (
-    <section id="projects" className="pt-8 pb-24 relative">
+    <section id="projects" className="pt-24 pb-24 relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* （ここは変更なし）セクションタイトルなど */}
+        
+        {/* タイトル変更 */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl mb-4">
-            開発作品
+          <h2 className="text-2xl font-bold tracking-tight text-stone-400 sm:text-3xl mb-4">
+            Other Works
           </h2>
-          <div className="h-1 w-20 bg-orange-400 rounded-full mx-auto mb-6" />
-          <p className="text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed">
-            AIを使って実装してきた作品たち。<br />
-            実験の域を出てはいませんが、作るたびに学びを得てきました。
+          <p className="text-stone-500">
+            他にも、AIやWeb技術を使って実験的なアプリを作っています。
           </p>
         </motion.div>
 
-        {/* （ここは変更なし）グリッド表示 */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
+          {/* ▼▼▼ otherProjects をマップする ▼▼▼ */}
+          {otherProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
               project={project}
               index={index}
-              onClick={() => handleProjectClick(project)} // 関数を差し替え
+              onClick={() => setSelectedProject(project)}
             />
           ))}
         </div>
       </div>
 
-      {/* 詳細モーダル */}
+      {/* モーダル（既存のまま） */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -65,15 +55,13 @@ export default function Projects() {
               onClick={() => setSelectedProject(null)}
               className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm"
             />
-
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-stone-900/5 flex flex-col" // flex-colを追加
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-stone-900/5 flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* 閉じるボタン */}
               <button
                 onClick={() => setSelectedProject(null)}
                 className="fixed right-4 top-4 md:absolute md:right-4 md:top-4 z-50 rounded-full bg-stone-100/80 p-2 text-stone-500 hover:bg-stone-200 hover:text-stone-800 transition-colors backdrop-blur-sm shadow-sm"
@@ -81,7 +69,6 @@ export default function Projects() {
                 <X size={24} />
               </button>
 
-              {/* ▼▼▼ 追加：モーダル上部のメイン画像 ▼▼▼ */}
               {selectedProject.imgUrl && (
                 <div className="w-full h-48 sm:h-64 md:h-72 relative bg-stone-100 shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -90,13 +77,10 @@ export default function Projects() {
                     alt={selectedProject.title}
                     className="w-full h-full object-cover"
                   />
-                  {/* 画像の上に少しグラデーションをかけて文字を見やすくする装飾（お好みで） */}
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/10 to-transparent pointer-events-none" />
                 </div>
               )}
-              {/* ▲▲▲ 追加ここまで ▲▲▲ */}
 
-              {/* ヘッダーエリア */}
               <div className="w-full bg-stone-50 px-6 py-8 sm:px-12 sm:py-10 border-b border-stone-100">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {selectedProject.tags.map((tag) => (
@@ -112,7 +96,6 @@ export default function Projects() {
                   {selectedProject.catchphrase}
                 </p>
 
-                {/* リンクボタン */}
                 <div className="flex flex-wrap gap-4 mt-8">
                   {selectedProject.demoUrl && (
                     <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer" 
@@ -131,7 +114,6 @@ export default function Projects() {
                 </div>
               </div>
 
-              {/* ブログ風コンテンツエリア */}
               <div className="px-6 py-10 sm:px-12 sm:py-12 bg-white space-y-12">
                 {selectedProject.article?.map((section, idx) => (
                   <div key={idx} className="prose prose-stone max-w-none">
