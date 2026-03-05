@@ -34,8 +34,6 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className="p-2 rounded-full bg-white hover:bg-orange-100 hover:text-orange-600 transition-all duration-300 border border-stone-200 hover:border-orange-200 group"
       aria-label={label}
     >
