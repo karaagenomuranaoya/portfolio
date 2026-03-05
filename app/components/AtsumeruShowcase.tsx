@@ -5,7 +5,7 @@ import { Code2, Database, Zap, Layers, Calculator, Gamepad2, AlertTriangle, Mous
 
 export default function AtsumeruShowcase() {
   return (
-    <section className="w-full bg-[#FDFCF8] py-24 border-b border-stone-200">
+    <section id="atsumeru" className="w-full bg-[#FDFCF8] py-24 border-b border-stone-200">
       
       {/* --- タイトルエリア --- */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center mb-24">
@@ -36,7 +36,7 @@ export default function AtsumeruShowcase() {
           transition={{ delay: 0.2 }}
           className="mt-8 flex flex-wrap justify-center gap-3"
         >
-          {["Flutter", "Dart", "Shared Preferences", "Riverpod", "Clean Architecture"].map((tech) => (
+          {["Flutter"].map((tech) => (
             <span key={tech} className="px-3 py-1 rounded-md bg-stone-100 border border-stone-200 text-stone-600 text-xs font-mono">
               {tech}
             </span>

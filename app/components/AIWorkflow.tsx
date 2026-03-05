@@ -22,8 +22,7 @@ export default function AIWorkflow() {
               AI-Native Development
             </h2>
             <p className="text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed">
-              コーディングはAIに任せ、人間は「体験」と「意思決定」に集中する。<br />
-              心理学で培った人間理解と、生成AIという武器を掛け合わせた開発スタイル。
+              生成AIをフル活用した開発スタイル。
             </p>
           </motion.div>
         </div>

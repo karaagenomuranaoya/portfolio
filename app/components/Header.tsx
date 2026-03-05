@@ -6,8 +6,9 @@ import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navItems = [
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
+  { name: "あつめる家計簿", href: "#atsumeru" },
+  { name: "その他の作品", href: "#projects" },
+  { name: "僕自身について", href: "#about"}
 ];
 
 export default function Header() {

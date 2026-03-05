@@ -29,35 +29,14 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "atsumeru",
-    title: "あつめる家計簿",
-    catchphrase: "自然と集まり、楽しく続く。家計簿の新しいカタチ",
-    imgUrl: "/images/atsumeru/main.png", // 画像パスは仮
-    tags: ["Flutter", "Firebase", "TypeScript", "Next.js"], // 使用技術（仮）
-    techStack: {
-      frontend: ["Flutter", "Dart"],
-      backend: ["Firebase", "Cloud Functions"],
-      infra: ["Google Cloud Platform"],
-      ai: ["Gemini API (レシート解析)"] // 仮
-    },
-    demoUrl: "", // アプリストアのリンクなどがあれば
-    // 記事データは後で専用ページ側でリッチに描くので、ここは空でもOKですが
-    // 検索やAI回答用に概要だけ入れておきます
-    article: [
-      {
-        content: "一番力を入れて開発した、これまでの集大成となる家計簿アプリです。詳細ページでじっくり解説します。"
-      }
-    ]
-  },
-  {
     id: "yoru-takibi",
     title: "夜焚き火",
     catchphrase: "夜だけ灯る、静かな日記共有サービス",
     imgUrl: "/images/yotakibi/yotakibi.jpg", // 提供されたOGP画像などを指定
-    tags: ["Python", "Flask", "Concept-Driven"],
+    tags: ["Python", "Flask",],
     techStack: {
       frontend: ["HTML/CSS", "Jinja2"],
-      backend: ["Python", "Flask", "SQLAlchemy"],
+      backend: ["Python", "Flask",],
       infra: ["Render", "GitHub Actions"],
     },
     demoUrl: "https://yotakibi.onrender.com/",
@@ -84,7 +63,7 @@ export const projects: Project[] = [
       },
       {
         heading: "振り返り",
-        content: "「宣伝すると秘密の場所という世界観が壊れる」というジレンマに直面し、集客面では課題が残りました。しかし、FlaskやSQLAlchemy を使ったフルスタックなWebアプリケーションの設計、そして何より「コードで世界観を表現する」というUXデザインの根幹を、AIのサポートを得ながら形にできた思い入れの深い作品です。"
+        content: "「宣伝すると秘密の場所という世界観が壊れる」というジレンマに直面し、集客面では課題が残りました。しかし、Flaskを採用して、AIのサポートを得ながら初めて形にできたWebサイトであり、思い入れの深い作品です。"
       }
     ]
   },
@@ -94,7 +73,7 @@ export const projects: Project[] = [
     title: "AI激重彼女",
     catchphrase: "愛が重すぎるAIとの、背筋も凍る恋愛シミュレーション",
     imgUrl: "/images/gekiomo/banner1.png", // スクリーンショット等を配置してください
-    tags: ["Next.js", "Supabase", "Generative AI", "Viral Design"],
+    tags: ["Next.js", "Supabase", "Gemini API",],
     techStack: {
       frontend: ["Next.js (App Router)", "Framer Motion", "Tailwind CSS"],
       backend: ["Google Gemini API", "Supabase"],

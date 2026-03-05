@@ -1,6 +1,7 @@
 "use client";
 
-import { Github, Twitter } from "lucide-react";
+// 1. Githubを削除し、Mailをインポート
+import { Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -16,7 +17,13 @@ export default function Footer() {
         </div>
 
         <div className="flex space-x-6">
-          <SocialLink href="https://github.com/karaagenomuranaoya" icon={<Github size={20} />} label="GitHub" />
+          {/* 2. & 3. hrefをmailtoに変更し、アイコンをMailに変更 */}
+          {/* 下記のメールアドレスをご自身のものに書き換えてください */}
+          <SocialLink 
+            href="mailto:nomura.naoya.jobsearch@gmail.com" 
+            icon={<Mail size={20} />} 
+            label="Email" 
+          />
         </div>
       </div>
     </footer>
