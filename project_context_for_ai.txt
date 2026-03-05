@@ -1,0 +1,1184 @@
+# Project Structure
+
+```text
+├── .env.local
+├── app
+│   ├── api
+│   │   └── gemini
+│   │       └── route.ts
+│   ├── components
+│   │   ├── AIChat.tsx
+│   │   ├── About.tsx
+│   │   ├── BackgroundEffect.tsx
+│   │   ├── Contact.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── ProjectCard.tsx
+│   │   ├── Projects.tsx
+│   │   ├── Skills.tsx
+│   │   └── ui
+│   ├── data
+│   │   ├── profile.ts
+│   │   └── projects.ts
+│   ├── globals.css
+│   ├── hooks
+│   ├── layout.tsx
+│   ├── lib
+│   │   └── gemini.ts
+│   └── page.tsx
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── project_context_for_ai.txt
+├── tailwind.config.ts
+├── textify.py
+└── tsconfig.json
+```
+
+---
+
+## File: eslint.config.mjs
+```mjs
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+
+```
+
+## File: next-env.d.ts
+```ts
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+```
+
+## File: next.config.ts
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+
+```
+
+## File: package.json
+```json
+{
+  "name": "my-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+
+```
+
+## File: postcss.config.mjs
+```mjs
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+
+```
+
+## File: tailwind.config.ts
+```ts
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}", // ← これが超重要！appフォルダ全体を対象にする
+  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      colors: {
+        // 必要に応じてここにカスタムカラーを追加できます
+      }
+    },
+  },
+  plugins: [],
+};
+export default config;
+```
+
+## File: tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+
+```
+
+## File: app/layout.tsx
+```tsx
+import type { Metadata } from "next";
+import { Inter } from "next/font/google"; // 必要ならNoto Serif JPなどに変えても似合います
+import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Naoya Nomura | AI-Driven Product Engineer",
+  description: "企画から実装までをAIと共に駆け抜けるプロダクトエンジニアのポートフォリオ",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ja" className="scroll-smooth">
+      <body className={`${inter.className} relative overflow-x-hidden`}>
+        {/* 背景の装飾効果（木漏れ日のような優しい光） */}
+        <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          {/* 左上の柔らかいオレンジ */}
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-200/40 rounded-full blur-[100px]" />
+          {/* 右下の爽やかなグリーン */}
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-green-200/30 rounded-full blur-[100px]" />
+          {/* 中央付近のハイライト */}
+          <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] bg-yellow-100/40 rounded-full blur-[80px]" />
+        </div>
+        
+        <Header />
+        <main className="min-h-screen flex flex-col items-center justify-between px-4 sm:px-8 md:px-24 py-12">
+          {children}
+        </main>
+        <Footer />
+      </body>
+    </html>
+  );
+}
+```
+
+## File: app/page.tsx
+```tsx
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import AIChat from "./components/AIChat"; // 追加
+
+export default function Home() {
+  return (
+    <div className="w-full flex flex-col gap-10 relative">
+      <Hero />
+      <Projects />
+      <About />
+      
+      {/* AIチャットを配置（fixedポジションなのでどこに置いてもOKですが、論理的には最後） */}
+      <AIChat />
+    </div>
+  );
+}
+```
+
+## File: app/components/AIChat.tsx
+```tsx
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { MessageSquare, X, Send, Bot, User } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+type Message = {
+  role: "user" | "ai";
+  content: string;
+};
+
+export default function AIChat() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "ai", content: "こんにちは！ポートフォリオへようこそ。私の経歴やプロジェクトについて、何でも聞いてください。" }
+  ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // 自動スクロール
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isOpen]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = input.trim();
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: userMessage,
+          history: messages.filter(m => m.role !== "system"), // 必要に応じてフィルタリング
+        }),
+      });
+
+      const data = await response.json();
+      setMessages((prev) => [...prev, { role: "ai", content: data.reply }]);
+    } catch (error) {
+      console.error(error);
+      setMessages((prev) => [...prev, { role: "ai", content: "すみません、エラーが発生しました。" }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ... 前半のロジックは同じなので省略。return内のみ書き換え ...
+
+  return (
+    <>
+      <motion.button
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-50 p-4 bg-stone-800 text-white rounded-full shadow-xl hover:bg-stone-700 transition-colors shadow-stone-500/20"
+      >
+        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
+      </motion.button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-24 right-6 z-40 w-[90vw] sm:w-[350px] h-[500px] max-h-[70vh] bg-white border border-stone-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+          >
+            {/* ヘッダー */}
+            <div className="bg-stone-50 p-4 border-b border-stone-100 flex items-center gap-2">
+              <Bot size={20} className="text-orange-600" />
+              <div>
+                <h3 className="text-sm font-bold text-stone-700">AI Assistant</h3>
+                <p className="text-xs text-stone-400">Powered by Gemini 1.5</p>
+              </div>
+            </div>
+
+            {/* メッセージエリア */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-stone-50/50">
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`flex items-start gap-2 ${
+                    msg.role === "user" ? "flex-row-reverse" : "flex-row"
+                  }`}
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                      msg.role === "user" ? "bg-stone-200 text-stone-600" : "bg-orange-100 text-orange-600"
+                    }`}
+                  >
+                    {msg.role === "user" ? <User size={14} /> : <Bot size={16} />}
+                  </div>
+                  <div
+                    className={`px-3 py-2 rounded-lg text-sm max-w-[80%] leading-relaxed shadow-sm ${
+                      msg.role === "user"
+                        ? "bg-stone-700 text-white rounded-tr-none"
+                        : "bg-white text-stone-700 rounded-tl-none border border-stone-200"
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex items-center gap-2 text-stone-400 text-xs ml-10">
+                  <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" />
+                  <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* 入力エリア */}
+            <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-stone-100 flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="質問を入力..."
+                className="flex-1 bg-stone-100 border border-transparent rounded-full px-4 py-2 text-sm text-stone-800 focus:outline-none focus:bg-white focus:border-orange-300 transition-all"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !input.trim()}
+                className="p-2 bg-stone-800 text-white rounded-full hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <Send size={18} />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+```
+
+## File: app/components/About.tsx
+```tsx
+"use client";
+
+import { motion } from "framer-motion";
+import { profile } from "../data/profile";
+import { GraduationCap, BookOpen, Code, Lightbulb } from "lucide-react";
+
+export default function About() {
+  return (
+    <section id="about" className="py-1 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16 text-center md:text-left"
+        >
+          <h2 className="text-2xl font-bold tracking-tight text-stone-800 sm:text-3xl mb-4">
+            開発背景と、僕自身について
+          </h2>
+          <div className="h-0.5 w-16 bg-orange-400 rounded-full mx-auto md:mx-0" />
+        </motion.div>
+
+        <div className="flex">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <p className="text-stone-600 leading-loose mb-10 whitespace-pre-line text-sm sm:text-base">
+              {profile.bio}
+            </p>
+
+            {/* 学歴カード：紙のような質感に */}
+            <div className="border-l-2 border-stone-300 pl-6 py-2">
+              <div className="flex items-center gap-3 mb-2">
+                <GraduationCap className="text-stone-500" size={20} />
+                <h4 className="text-stone-800 font-medium">{profile.university.name}</h4>
+              </div>
+              <p className="text-stone-500 text-sm mb-4">{profile.university.major}</p>
+              
+              <div className="bg-white rounded-lg p-5 border border-stone-200 shadow-sm">
+                <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider block mb-2">Graduation Thesis</span>
+                <p className="text-stone-700 text-sm font-medium mb-2">
+                  {profile.university.thesis.title}
+                </p>
+                <p className="text-stone-500 text-xs leading-relaxed">
+                  {profile.university.thesis.summary}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="space-y-10"
+          >
+
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+## File: app/components/BackgroundEffect.tsx
+```tsx
+
+```
+
+## File: app/components/Contact.tsx
+```tsx
+
+```
+
+## File: app/components/Footer.tsx
+```tsx
+"use client";
+
+import { Github, Twitter } from "lucide-react";
+
+export default function Footer() {
+  return (
+    <footer className="w-full bg-stone-100 border-t border-stone-200 py-12 text-stone-500">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        <div className="text-center md:text-left">
+          <h3 className="text-xl font-bold text-stone-700 mb-2">Naoya Nomura</h3>
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} All rights reserved.
+            <br className="sm:hidden" /> Built with Next.js, Tailwind & AI Co-pilot.
+          </p>
+        </div>
+
+        <div className="flex space-x-6">
+          <SocialLink href="https://github.com/karaagenomuranaoya" icon={<Github size={20} />} label="GitHub" />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="p-2 rounded-full bg-white hover:bg-orange-100 hover:text-orange-600 transition-all duration-300 border border-stone-200 hover:border-orange-200 group"
+      aria-label={label}
+    >
+      <span className="group-hover:scale-110 block transition-transform">
+        {icon}
+      </span>
+    </a>
+  );
+}
+```
+
+## File: app/components/Header.tsx
+```tsx
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
+
+const navItems = [
+  { name: "About", href: "#about" },
+  { name: "Projects", href: "#projects" },
+];
+
+export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/70 backdrop-blur-md border-b border-stone-200 py-4 shadow-sm"
+          : "bg-transparent py-6"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* ロゴエリア */}
+        <Link href="/" className="group">
+          <span className="text-xl font-bold text-stone-700 group-hover:text-orange-600 transition-colors">
+            Naoya Nomura
+          </span>
+          <span className="ml-2 text-xs text-stone-500 hidden sm:inline-block">
+            技術とユーモアで誇れるプロダクトを。
+          </span>
+        </Link>
+
+        {/* デスクトップナビゲーション */}
+        <nav className="hidden md:flex space-x-8">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+
+        {/* モバイルメニューボタン */}
+        <button
+          className="md:hidden text-stone-600 hover:text-orange-600"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* モバイルメニュー */}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className="md:hidden bg-white border-b border-stone-200"
+        >
+          <div className="px-4 pt-2 pb-4 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="block px-3 py-2 text-base font-medium text-stone-600 hover:text-orange-600 hover:bg-orange-50 rounded-md"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </motion.header>
+  );
+}
+```
+
+## File: app/components/Hero.tsx
+```tsx
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight, Brain, Code2, PenTool } from "lucide-react";
+import Link from "next/link";
+
+export default function Hero() {
+  return (
+    <section className="relative w-full min-h-[20vh] flex flex-col items-center justify-center text-center pt-20">
+      
+      {/* タグ：優しいパステル調 */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="flex flex-wrap justify-center gap-3 mb-8"
+      >
+        <Badge icon={<Brain size={14} />} text="Psychology Student" color="bg-orange-100 text-orange-700 border-orange-200" />
+        <Badge icon={<Code2 size={14} />} text="Prototyper" color="bg-blue-100 text-blue-700 border-blue-200" />
+        <Badge icon={<PenTool size={14} />} text="Service Design" color="bg-green-100 text-green-700 border-green-200" />
+      </motion.div>
+
+      {/* メインタイトル */}
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-800 mb-6 max-w-4xl leading-tight"
+      >
+        アプリ開発ひよっこ
+        <br />
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-pink-500">
+          野村直矢のポートフォリオ
+        </span>
+      </motion.h1>
+
+      {/* サブタイトル */}
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="text-base sm:text-lg text-stone-600 max-w-2xl mb-10 leading-relaxed px-4"
+      >
+        東大教育学部で心理学を学んでいました。
+        <br className="hidden sm:block" />
+        趣味でAIを使ってアプリ開発をしています。
+        <br />
+        拙作をまとめているのでよければごゆっくりご覧ください。
+      </motion.p>
+    </section>
+  );
+}
+
+function Badge({ icon, text, color }: { icon: React.ReactNode; text: string; color: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${color}`}>
+      {icon}
+      {text}
+    </span>
+  );
+}
+```
+
+## File: app/components/ProjectCard.tsx
+```tsx
+"use client";
+
+import { motion } from "framer-motion";
+import { Project } from "../data/projects";
+import { ArrowUpRight, Image as ImageIcon } from "lucide-react"; // アイコン追加
+
+interface ProjectCardProps {
+  project: Project;
+  onClick: () => void;
+  index: number;
+}
+
+export default function ProjectCard({ project, onClick, index }: ProjectCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className="group relative h-full"
+    >
+      <div
+        onClick={onClick}
+        className="h-full cursor-pointer overflow-hidden rounded-2xl bg-white border border-stone-200 hover:border-orange-300 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-orange-100/50 flex flex-col"
+      >
+         {/* ▼▼▼ 画像エリアの修正 ▼▼▼ */}
+        <div className="relative h-48 w-full overflow-hidden bg-stone-100">
+           {/* 画像がある場合 */}
+           {project.imgUrl ? (
+             // eslint-disable-next-line @next/next/no-img-element
+             <img
+               src={project.imgUrl}
+               alt={project.title}
+               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+             />
+           ) : (
+             // 画像がない場合のフォールバック（以前のデザイン）
+             <>
+               <div className={`absolute inset-0 bg-gradient-to-br from-stone-100 to-stone-200 group-hover:scale-105 transition-transform duration-500`} />
+               <div className="absolute inset-0 flex items-center justify-center">
+                 <span className="text-4xl font-bold text-stone-300 group-hover:text-stone-400 transition-colors">
+                   {project.title.substring(0, 2)}
+                 </span>
+               </div>
+             </>
+           )}
+        </div>
+        {/* ▲▲▲ 修正ここまで ▲▲▲ */}
+
+        {/* コンテンツエリア */}
+        <div className="flex flex-1 flex-col p-6">
+          <div className="mb-4 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-stone-600 border border-stone-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <h3 className="mb-2 text-xl font-bold text-stone-800 group-hover:text-orange-600 transition-colors flex items-center gap-2">
+            {project.title}
+            <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+          </h3>
+          
+          <p className="mb-4 text-sm text-stone-500 line-clamp-2 leading-relaxed">
+            {project.catchphrase}
+          </p>
+          
+          <div className="mt-auto pt-4 border-t border-stone-100">
+             <span className="text-xs font-medium text-stone-400 group-hover:text-orange-600 transition-colors">
+               View Details &rarr;
+             </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+```
+
+## File: app/components/Projects.tsx
+```tsx
+"use client";
+
+import { useState } from "react";
+import { projects, Project } from "../data/projects";
+import ProjectCard from "./ProjectCard";
+import { AnimatePresence, motion } from "framer-motion";
+import { X, Github, ExternalLink } from "lucide-react";
+
+export default function Projects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  return (
+    <section id="projects" className="pt-8 pb-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* （ここは変更なし）セクションタイトルなど */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16 text-center"
+        >
+          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl mb-4">
+            開発作品
+          </h2>
+          <div className="h-1 w-20 bg-orange-400 rounded-full mx-auto mb-6" />
+          <p className="text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed">
+            AIを使って実装してきた作品たち。<br />
+            実験の域を出てはいませんが、作るたびに学びを得てきました。
+          </p>
+        </motion.div>
+
+        {/* （ここは変更なし）グリッド表示 */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              onClick={() => setSelectedProject(project)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* 詳細モーダル */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-stone-900/5 flex flex-col" // flex-colを追加
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 閉じるボタン */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="fixed right-4 top-4 md:absolute md:right-4 md:top-4 z-50 rounded-full bg-stone-100/80 p-2 text-stone-500 hover:bg-stone-200 hover:text-stone-800 transition-colors backdrop-blur-sm shadow-sm"
+              >
+                <X size={24} />
+              </button>
+
+              {/* ▼▼▼ 追加：モーダル上部のメイン画像 ▼▼▼ */}
+              {selectedProject.imgUrl && (
+                <div className="w-full h-48 sm:h-64 md:h-72 relative bg-stone-100 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={selectedProject.imgUrl}
+                    alt={selectedProject.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* 画像の上に少しグラデーションをかけて文字を見やすくする装飾（お好みで） */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/10 to-transparent pointer-events-none" />
+                </div>
+              )}
+              {/* ▲▲▲ 追加ここまで ▲▲▲ */}
+
+              {/* ヘッダーエリア */}
+              <div className="w-full bg-stone-50 px-6 py-8 sm:px-12 sm:py-10 border-b border-stone-100">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {selectedProject.tags.map((tag) => (
+                    <span key={tag} className="px-3 py-1 rounded-full bg-white border border-stone-200 text-xs font-medium text-stone-600 shadow-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 className="text-3xl sm:text-4xl font-extrabold text-stone-800 mb-4 leading-tight">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-stone-500 font-medium text-lg sm:text-xl">
+                  {selectedProject.catchphrase}
+                </p>
+
+                {/* リンクボタン */}
+                <div className="flex flex-wrap gap-4 mt-8">
+                  {selectedProject.demoUrl && (
+                    <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer" 
+                       className="flex items-center gap-2 px-5 py-2.5 bg-stone-800 hover:bg-stone-700 text-white rounded-full font-medium transition-all shadow-sm">
+                      <ExternalLink size={18} />
+                      Live Demo
+                    </a>
+                  )}
+                  {selectedProject.githubUrl && (
+                    <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" 
+                       className="flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-stone-50 text-stone-700 rounded-full font-medium transition-all border border-stone-200 shadow-sm">
+                      <Github size={18} />
+                      Source Code
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* ブログ風コンテンツエリア */}
+              <div className="px-6 py-10 sm:px-12 sm:py-12 bg-white space-y-12">
+                {selectedProject.article?.map((section, idx) => (
+                  <div key={idx} className="prose prose-stone max-w-none">
+                    {section.heading && (
+                      <h4 className="text-xl sm:text-2xl font-bold text-stone-800 mb-4 pb-2 border-b border-stone-100">
+                        {section.heading}
+                      </h4>
+                    )}
+                    {section.content && (
+                       <p className="text-stone-600 leading-loose text-base sm:text-lg whitespace-pre-wrap">
+                         {section.content}
+                       </p>
+                    )}
+                    {section.image && (
+                      <div className="mt-6 rounded-xl overflow-hidden border border-stone-100 shadow-sm">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={section.image} alt={section.heading || "Project image"} className="w-full h-auto object-cover" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+```
+
+## File: app/components/Skills.tsx
+```tsx
+
+```
+
+## File: app/lib/gemini.ts
+```ts
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+// APIキーが設定されていない場合の安全策
+const apiKey = process.env.GEMINI_API_KEY || "";
+
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// モデルの初期化（高速な gemini-1.5-flash を使用）
+export const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
+```
+
+## File: app/api/gemini/route.ts
+```ts
+import { NextResponse } from "next/server";
+import { model } from "../../lib/gemini";
+import { profile } from "../../data/profile";
+import { projects } from "../../data/projects";
+
+// あなたの情報をテキスト化してAIに教える
+const systemContext = `
+あなたはポートフォリオサイトのアシスタントAIです。
+以下のエンジニア「${profile.name}」になりきって、訪問者からの質問に短く、謙虚に、しかし情熱を持って答えてください。
+一人称は「私」です。
+
+【プロフィール】
+- 大学: ${profile.university.name} ${profile.university.major}
+- 役割: ${profile.role}
+- 背景: 心理学を専攻。卒論では「オノマトペ発想法」を研究。技術は独学だが、AIをペアプログラマーとして活用し、企画から実装までを高速で行うスタイル。
+- 強み: 心理学に基づくUX設計、ゲーミフィケーション、AIを活用したプロトタイピング。
+
+【制作物（プロジェクト）】
+${projects.map(p => `- ${p.title}: ${p.catchphrase} (技術: ${p.tags.join(", ")})。${p.description}`).join("\n")}
+
+【回答のルール】
+- 質問には日本語で答えてください。
+- 150文字以内で簡潔に答えてください。
+- 技術的な質問には、使用した技術スタック（Next.js, Supabase, Flutter等）を交えて答えてください。
+- 「なぜ心理学からエンジニアに？」と聞かれたら、卒論の経験や、人の心を動かす仕組みへの興味を挙げてください。
+- 知らないことや、ポートフォリオに含まれない質問には「すみません、それは私の守備範囲外のようです…！」と答えてください。
+`;
+
+export async function POST(req: Request) {
+  try {
+    const { message, history } = await req.json();
+
+    // 過去の会話履歴をフォーマット
+    // Gemini SDKの形式に合わせる（user/model）
+    const chatHistory = history.map((msg: { role: string; content: string }) => ({
+      role: msg.role === "user" ? "user" : "model",
+      parts: [{ text: msg.content }],
+    }));
+
+    // チャットセッションを開始
+    const chat = model.startChat({
+      history: [
+        {
+          role: "user",
+          parts: [{ text: systemContext }], // 最初のメッセージとしてコンテキストを注入
+        },
+        {
+          role: "model",
+          parts: [{ text: "承知しました。野村直矢として、訪問者の方の質問にお答えします。" }],
+        },
+        ...chatHistory,
+      ],
+    });
+
+    const result = await chat.sendMessage(message);
+    const response = result.response.text();
+
+    return NextResponse.json({ reply: response });
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    return NextResponse.json(
+      { reply: "申し訳ありません。AIの調子が悪いようです。（APIキーの設定を確認してください）" },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## File: app/data/profile.ts
+```ts
+// app/data/profile.ts
+
+export const profile = {
+  name: "Naoya Nomura",
+  role: "Service Planner / Prototyping Engineer", // 役割を少し控えめに
+  university: {
+    name: "東京大学 教育学部 総合教育科学科",
+    major: "心身発達科学専修 教育心理学コース",
+    thesis: {
+      title: "アイデア生成におけるオノマトペ発想法の提案",
+      summary: "「オノマトペ（擬音語）の多義性が、論理的制約を超えたアイデア生成を促進する」という仮説を検証。92名を対象とした実験とPython（AI生成コード）を用いた統計分析を行いました。有意差こそ出ませんでしたが、定性的な観察から「感覚的な刺激が思考を広げる可能性」を学びました。",
+      connection: "人間の認知や感情を扱う心理学の知見と、仮説を検証するプロセスは、ユーザーにとって使い心地の良いサービスを設計する上での私の基盤です。"
+    }
+  },
+  bio: `
+    ご覧いただきありがとうございます。野村直矢と申します。趣味でAIを用いて個人開発をしています。
+    相棒はGemini。3.1-Pro-Previewは本当に素晴らしいスペックですよね。Geminiアプリでは物足りず、APIキーを取得してGoogle AI Studioで開発しています。CursorやClineなどのエージェントAIも使ってその素晴らしさに怖さすら覚えましたが、趣味においてはStudioを用いて自分でコードを切り貼りする開発が気に入っています。
+    恥ずかしながら本格的に利用者を獲得した経験はありません。しかし、自分の作品やそこから得た学びには誇りを持っています。特に家計簿アプリは徹底的に実機でテストをして、細かいUI/UX体験にもこだわった、自分でも愛用する大事な作品です。よければ作品欄からご覧ください。
+    2026年春に、神奈川県内のSIer企業に就職予定です。仕事では、多様な技術やユーザー体験の向上にこだわれる環境に惹かれています。様々な技術スタックを用いた開発がとても楽しかったこと、細かなユーザー体験にこだわり、自分が使いたいと思えるようなプロダクトを作る喜びにもっと触れたいことが理由です。
+    もっと技術を高めながら、人間関係とユーモアを大切に、一人前のエンジニアになっていければと思います。読んでいただき本当にありがとうございました！
+
+
+  `,
+  links: {
+    github: "https://github.com/karaagenomuranaoya",
+  }
+};
+```
+
+## File: app/data/projects.ts
+```ts
+// app/data/projects.ts
+
+export type ArticleSection = {
+  heading?: string;
+  content: string;
+  image?: string; // 画像のパス（任意）
+};
+
+export type Project = {
+  id: string;
+  title: string;
+  catchphrase: string;
+  imgUrl: string;
+  tags: string[];
+  
+  // ▼ これまでの細々したデータをブログ形式の配列にまとめる
+  article: ArticleSection[];
+  
+  // ▼ 以下はカード表示やメタデータとして残しておきます
+  techStack: {
+    frontend: string[];
+    backend: string[];
+    infra: string[];
+    ai?: string[];
+  };
+  demoUrl?: string;
+  githubUrl?: string;
+};
+
+export const projects: Project[] = [
+  {
+    id: "yoru-takibi",
+    title: "夜焚き火",
+    catchphrase: "夜だけ灯る、静かな日記共有サービス",
+    imgUrl: "/images/ogp.png", // 提供されたOGP画像などを指定
+    tags: ["Python", "Flask", "Concept-Driven"],
+    techStack: {
+      frontend: ["HTML/CSS", "Jinja2"],
+      backend: ["Python", "Flask", "SQLAlchemy"],
+      infra: ["Render", "GitHub Actions"],
+    },
+    demoUrl: "https://yotakibi.onrender.com/",
+    // ▼ ブログ風の詳細コンテンツ
+    article: [
+      {
+        content: "「夜焚き火」は、毎日19:00〜翌01:00の間だけオープンする、完全匿名の日記共有サイトです。「いいね」やリプライといったSNSの機能から離れ、ただ自分の言葉（薪）を焚べ、誰かの言葉の火にあたるだけの静寂な空間を目指しました。"
+      },
+      {
+        heading: "あえて不便な「営業時間」と「種火」の仕組み",
+        content: "いつでもどこでも繋がれる現代へのアンチテーゼとして、アクセス時間を夜に限定する門番機能（system.py）を実装しました。また、投稿時にはアカウント登録を求めず、代わりに「種火（合言葉）」を設定してもらいます。これにより、自分だけが過去の火を検索して振り返ることができる、ゆるやかな繋がりを実現しています。"
+      },
+      {
+        heading: "IPハッシュとNGワードによる「荒れない」治安維持",
+        content: "匿名性を担保しつつ治安を守るため、アクセス元のIPアドレスにソルトを加えてハッシュ化し（utils.py）、1時間に5回までの連投制限を設けています。また、世界観を壊すような犯罪予告や特定のなりすまし（管理人など）を防ぐため、最小限のNGワードチェック（ng_words.py）を裏側で走らせています。"
+      },
+      {
+        heading: "世界観に溶け込むステルスな管理者UI",
+        content: "管理画面の存在自体がサイトの雰囲気を壊さないよう工夫しました。URLのパラメータで役（ロール）を切り替え、画面左上の隠しホットスポットをクリックした時だけ、監視用のバッジやピン留め機能付きのサイドバー（admin_sidebar.html）が浮かび上がるようになっています。"
+      },
+      {
+        heading: "AIが彩る「火の番」",
+        content: "誰もいなくて焚き火が寂しくならないよう、Gemini APIを利用した「AI Bot（火の番）」を裏側に仕込んでいます（bot.py）。GitHub Actions（auto_fire.yml）を使って定期的に起動し、20〜80文字程度の素朴で日常的な独り言を生成して自動で薪をくべてくれます。"
+      },
+      {
+        heading: "振り返り",
+        content: "「宣伝すると秘密の場所という世界観が壊れる」というジレンマに直面し、集客面では課題が残りました。しかし、FlaskやSQLAlchemy を使ったフルスタックなWebアプリケーションの設計、そして何より「コードで世界観を表現する」というUXデザインの根幹を、AIのサポートを得ながら形にできた思い入れの深い作品です。"
+      }
+    ]
+  },
+  // ... 他のプロジェクトも同様に article を追加していく
+  {
+    id: "ai-gekiomo",
+    title: "AI激重彼女",
+    catchphrase: "愛が重すぎるAIとの、背筋も凍る恋愛シミュレーション",
+    imgUrl: "/images/gekiomo/banner1.png", // スクリーンショット等を配置してください
+    tags: ["Next.js", "Supabase", "Generative AI", "Viral Design"],
+    techStack: {
+      frontend: ["Next.js (App Router)", "Framer Motion", "Tailwind CSS"],
+      backend: ["Google Gemini API", "Supabase"],
+      infra: ["Vercel", "Upstash Redis (Rate Limiting)"],
+      ai: ["Gemini 2.5 Flash", "Prompt Engineering"]
+    },
+    demoUrl: "https://ai-gekiomo-girlfriend.vercel.app/",
+    article: [
+      {
+        content: "「AI激重彼女」は、ユーザーが何気ない言葉を投げかけると、常軌を逸した愛と束縛で返してくるジョークチャットボットです。「既読無視」や「GPS」といった恋愛の火種になりそうなワードに対し、AIが瞬時に“重い”返信を生成します。"
+      },
+      {
+        heading: "「辞書」と「生成AI」のハイブリッド構成",
+        content: "レスポンス速度と「ネタの質」を両立させるため、2段構えの構成を採用しました。「別れよう」「飲み会」などの定番ワードには、あらかじめ用意した最高強度の定型文（辞書）が即座にヒットし、それ以外の入力にはGoogle Gemini 2.5 Flashが動的に返信を生成します。これにより、APIコストを抑えつつ、ユーザーを飽きさせない体験を実現しました。"
+      },
+      {
+        heading: "動的なOGPによるバズ狙い",
+        image: "/images/gekiomo/ogp1.png",
+        content: "ただチャットするだけでなく、SNSでの拡散（バズ）を強く意識した設計を行いました。SNSに投稿をシェアする際のOGP画像を、固定せず動的に生成します。"
+      },
+      {
+        heading: "激重な世界観を支えるUI/UX",
+        content: "「病みかわいい」をテーマに、紫とピンクを基調としたデザインに統一しました。送信ボタンを押すと「既読がつきました...」と表示されたり、背景でハートが脈打つアニメーションを入れたりと、Framer Motionを使って不安と愛着を煽るマイクロインタラクションを実装しています。"
+      },
+      {
+        heading: "個人開発としての守り（レートリミット）",
+        content: "APIの過剰利用やDDoS攻撃を防ぐため、Upstash RedisとRatelimitライブラリを導入し、IPアドレスごとの連投制限を設けています。また、万が一APIがダウンした際や制限にかかった場合でも、アプリが落ちずに「逃げないから待っててね♡」という専用のメッセージと共にハンドリングするフォールバック処理を実装し、UXを損なわないよう配慮しました。"
+      },
+      {
+        heading: "振り返り",
+        content: "「AIにどういう役割を演じさせるか」というプロンプトの調整だけでなく、「その出力をどう見せれば人がシェアしたくなるか」という共有体験のデザインに注力した作品です。Supabaseに蓄積されたログを見ると、ユーザーがAIの重さに悲鳴を上げながらも楽しんでくれている様子が伺え、心理学的な「怖いもの見たさ」を刺激できたのではないかと感じています。"
+      }
+    ]
+  },
+];
+```
+
