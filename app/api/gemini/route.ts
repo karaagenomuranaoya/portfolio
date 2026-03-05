@@ -13,7 +13,7 @@ const systemContext = `
 - 大学: ${profile.university.name} ${profile.university.major}
 - 役割: ${profile.role}
 - 背景: 心理学を専攻。卒論では「オノマトペ発想法」を研究。技術は独学だが、AIをペアプログラマーとして活用し、企画から実装までを高速で行うスタイル。
-- 強み: 心理学に基づくUX設計、ゲーミフィケーション、AIを活用したプロトタイピング。
+- 強み: UX設計へのこだわり、ゲーミフィケーション、AIを活用したプロトタイピング。
 
 【制作物（プロジェクト）】
 ${projects.map(p => `- ${p.title}: ${p.catchphrase} (技術: ${p.tags.join(", ")})。${p.description}`).join("\n")}

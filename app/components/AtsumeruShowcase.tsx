@@ -23,7 +23,8 @@ export default function AtsumeruShowcase() {
           </h2>
           <p className="text-xl sm:text-2xl text-stone-600 max-w-3xl mx-auto leading-relaxed font-medium">
             「面倒な記録」を「集める楽しさ」へ。<br />
-            家計簿にガチャ要素を融合させた自信作。
+            家計簿にガチャ要素を融合させた自信作。<br />
+            開発は完了。近日リリース予定。
           </p>
         </motion.div>
 
@@ -111,13 +112,13 @@ export default function AtsumeruShowcase() {
                 <li className="flex items-start gap-3">
                   <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                   <p className="text-stone-600 text-sm">
-                    <span className="font-bold text-stone-700">0ボタン → 1.08倍</span>：金額入力後に「×」を押すと、0ボタンが「8%」に変化。
+                    <span className="font-bold text-stone-700">0ボタン → 1.08倍</span>：金額入力後に「×」を押すと、0ボタンが「1.1」に変化。
                   </p>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                   <p className="text-stone-600 text-sm">
-                    <span className="font-bold text-stone-700">00ボタン → 1.1倍</span>：同時に00ボタンが「10%」に変化。ワンタップで税込計算完了。
+                    <span className="font-bold text-stone-700">00ボタン → 1.1倍</span>：同時に00ボタンが「1.08」に変化。ワンタップで税込計算完了。
                   </p>
                 </li>
               </ul>

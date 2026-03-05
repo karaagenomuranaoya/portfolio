@@ -1,7 +1,6 @@
 import os
 
 # --- 設定 ---
-# 解析したいNext.jsプロジェクトのルートパス（このスクリプトをプロジェクト直下で動かすなら '.'）
 ROOT_DIR = '.'
 # AIに送る必要のないディレクトリやファイル
 EXCLUDE_DIRS = {'.next', 'node_modules', '.git', 'public', 'styles'}

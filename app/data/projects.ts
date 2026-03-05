@@ -53,7 +53,7 @@ export const projects: Project[] = [
     id: "yoru-takibi",
     title: "夜焚き火",
     catchphrase: "夜だけ灯る、静かな日記共有サービス",
-    imgUrl: "/images/ogp.png", // 提供されたOGP画像などを指定
+    imgUrl: "/images/yotakibi/yotakibi.jpg", // 提供されたOGP画像などを指定
     tags: ["Python", "Flask", "Concept-Driven"],
     techStack: {
       frontend: ["HTML/CSS", "Jinja2"],
