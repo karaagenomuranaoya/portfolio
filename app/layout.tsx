@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"; // 必要ならNoto Serif JPなどに�
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import WakeUpApi from "./components/WakeUpApi";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,9 @@ export default function RootLayout({
   return (
     <html lang="ja" className="scroll-smooth">
       <body className={`${inter.className} relative overflow-x-hidden`}>
+
+        <WakeUpApi />
+        
         {/* 背景の装飾効果（木漏れ日のような優しい光） */}
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
           {/* 左上の柔らかいオレンジ */}

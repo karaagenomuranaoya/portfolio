@@ -2077,7 +2077,6 @@ export const projects: Project[] = [
       backend: ["Python", "Flask",],
       infra: ["Render", "GitHub Actions"],
     },
-    demoUrl: "https://yotakibi.onrender.com/",
     // ▼ ブログ風の詳細コンテンツ
     article: [
       {
@@ -2109,7 +2108,7 @@ export const projects: Project[] = [
   {
     id: "ai-gekiomo",
     title: "AI激重彼女",
-    catchphrase: "愛が重すぎるAIとの、背筋も凍る恋愛シミュレーション",
+    catchphrase: "愛が重すぎるAIとの、爆笑恋愛シミュレーション",
     imgUrl: "/images/gekiomo/banner1.png", // スクリーンショット等を配置してください
     tags: ["Next.js", "Supabase", "Gemini API",],
     techStack: {
@@ -2142,7 +2141,7 @@ export const projects: Project[] = [
       },
       {
         heading: "振り返り",
-        content: "「AIにどういう役割を演じさせるか」というプロンプトの調整だけでなく、「その出力をどう見せれば人がシェアしたくなるか」という共有体験のデザインに注力した作品です。Xで広報に力を入れましたが、振るわず。エンタメアプリって難しいですね。初めてNext.jsにチャレンジしたアプリであり、Supabseとの連携、Vercelでのデプロイ、広報の難しさ、さまざまな学びを得た大事な作品です。まだ遊べるのでよかったらぜひ。"
+        content: "「AIにどういう役割を演じさせるか」というプロンプトの調整だけでなく、「その出力をどう見せれば人がシェアしたくなるか」という共有体験のデザインに注力した作品です。Xで広報に力を入れましたが、振るわず。エンタメアプリって難しいですね。初めてNext.jsにチャレンジしたアプリであり、Supabseとの連携、Vercelでのデプロイ、広報の難しさ、さまざまな学びを得た大事な作品です。まだ遊べるのでよかったら上のLive Demoボタンからぜひ。"
       }
     ]
   },

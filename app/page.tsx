@@ -4,6 +4,7 @@ import Projects from "./components/Projects";
 import AIChat from "./components/AIChat";
 import AtsumeruShowcase from "./components/AtsumeruShowcase";
 import AIWorkflow from "./components/AIWorkflow"; // 追加
+import LikeButton from "./components/LikeButton";
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
       
       {/* 4. 人となり */}
       <About />
+
+      <LikeButton />
       
       <AIChat />
     </div>
