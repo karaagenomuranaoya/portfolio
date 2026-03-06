@@ -39,7 +39,6 @@ export const projects: Project[] = [
       backend: ["Python", "Flask",],
       infra: ["Render", "GitHub Actions"],
     },
-    demoUrl: "https://yotakibi.onrender.com/",
     // ▼ ブログ風の詳細コンテンツ
     article: [
       {
@@ -71,7 +70,7 @@ export const projects: Project[] = [
   {
     id: "ai-gekiomo",
     title: "AI激重彼女",
-    catchphrase: "愛が重すぎるAIとの、背筋も凍る恋愛シミュレーション",
+    catchphrase: "愛が重すぎるAIとの、爆笑恋愛シミュレーション",
     imgUrl: "/images/gekiomo/banner1.png", // スクリーンショット等を配置してください
     tags: ["Next.js", "Supabase", "Gemini API",],
     techStack: {
@@ -87,7 +86,7 @@ export const projects: Project[] = [
       },
       {
         heading: "「辞書」と「生成AI」のハイブリッド構成",
-        content: "レスポンス速度と「ネタの質」を両立させるため、2段構えの構成を採用しました。「別れよう」「飲み会」などの定番ワードには、あらかじめ用意した最高強度の定型文（辞書）が即座にヒットし、それ以外の入力にはGoogle Gemini 2.5 Flashが動的に返信を生成します。これにより、APIコストを抑えつつ、ユーザーを飽きさせない体験を実現しました。"
+        content: "レスポンス速度と「ネタの質」を両立させるため、2段構えの構成を採用しました。「別れよう」「飲み会」などの定番ワードには、あらかじめ用意した最高強度の定型文（辞書）が即座にヒットし、それ以外の入力にはGoogle Gemini-3.1-flash-lite-previewが動的に返信を生成します。これにより、APIコストを抑えつつ、ユーザーを飽きさせない体験を実現しました。"
       },
       {
         heading: "動的なOGPによるバズ狙い",
@@ -104,7 +103,7 @@ export const projects: Project[] = [
       },
       {
         heading: "振り返り",
-        content: "「AIにどういう役割を演じさせるか」というプロンプトの調整だけでなく、「その出力をどう見せれば人がシェアしたくなるか」という共有体験のデザインに注力した作品です。Supabaseに蓄積されたログを見ると、ユーザーがAIの重さに悲鳴を上げながらも楽しんでくれている様子が伺え、心理学的な「怖いもの見たさ」を刺激できたのではないかと感じています。"
+        content: "「AIにどういう役割を演じさせるか」というプロンプトの調整だけでなく、「その出力をどう見せれば人がシェアしたくなるか」という共有体験のデザインに注力した作品です。Xで広報に力を入れましたが、振るわず。エンタメアプリって難しいですね。初めてNext.jsにチャレンジしたアプリであり、Supabseとの連携、Vercelでのデプロイ、広報の難しさ、さまざまな学びを得た大事な作品です。まだ遊べるのでよかったら上のLive Demoボタンからぜひ。"
       }
     ]
   },
