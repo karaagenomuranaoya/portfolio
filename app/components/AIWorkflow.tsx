@@ -29,6 +29,43 @@ export default function AIWorkflow() {
 
         {/* コンテンツエリア */}
         <div className="space-y-24">
+          {/* 2. Google AI Studio & Architecture */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="order-1 lg:order-1 relative"
+            >
+              {/* ▼▼ここにスクショ2（AI Studio）を配置▼▼ */}
+              <div className="rounded-xl overflow-hidden shadow-2xl border border-stone-200 bg-stone-100 aspect-video flex items-center justify-center group">
+                <img src="/images/workflow/studio.png" alt="Google AI Studio" className="w-full h-full object-cover" />
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="order-2 lg:order-2"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
+                  <Cpu size={24} />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800">最新モデルで「対話型」開発</h3>
+              </div>
+              <p className="text-stone-600 leading-loose mb-6">
+                一般的なチャットボットではなく、Google AI Studioを活用。
+                System Instructionで役割を定義し、Gemini 3.1 Proの長いコンテキストウィンドウを活かして、ワクワクする機能を考えたり、具体的なコードを出力したり。相棒と二人三脚で開発を進めます。
+              </p>
+              <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                <p className="text-sm text-stone-500 italic">
+                  &quot;CursorやClineなどエージェントAIも使ってみたけど、
+                  「コードはAIだけど自分で作ってる！」感じがするStudioでの開発が気に入ってるんだよね。&quot;
+                </p>
+              </div>
+            </motion.div>
+          </div>
 
           {/* 1. Context Optimization (自作スクリプト) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -72,44 +109,7 @@ export default function AIWorkflow() {
             </motion.div>
           </div>
 
-          {/* 2. Google AI Studio & Architecture */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-1 lg:order-1 relative"
-            >
-              {/* ▼▼ここにスクショ2（AI Studio）を配置▼▼ */}
-              <div className="rounded-xl overflow-hidden shadow-2xl border border-stone-200 bg-stone-100 aspect-video flex items-center justify-center group">
-                <img src="/images/workflow/studio.png" alt="Google AI Studio" className="w-full h-full object-cover" />
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-2 lg:order-2"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
-                  <Cpu size={24} />
-                </div>
-                <h3 className="text-2xl font-bold text-stone-800">最新モデルで「対話型」開発</h3>
-              </div>
-              <p className="text-stone-600 leading-loose mb-6">
-                一般的なチャットボットではなく、Google AI Studioを活用。
-                System Instructionで役割を定義し、Gemini 3.1 Proの長いコンテキストウィンドウを活かして、ディレクトリ構成から設計思想までをAIと共有しながら開発を進めます。
-              </p>
-              <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
-                <p className="text-sm text-stone-500 italic">
-                  &quot;フレームワークやディレクトリの作成コマンドからAIに任せる。
-                  人間は『どんな体験を作りたいか』の指示と、微調整に全振りする。&quot;
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
+          
           {/* 3. Speed & Ideation */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
             <InfoCard 

@@ -80,10 +80,10 @@ export default function AtsumeruShowcase() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FeaturePoint icon={<Zap size={20} />} title="爆速入力" desc="起動から入力完了まで最短3タップ。ストレスゼロのUI設計。" />
+              <FeaturePoint icon={<Zap size={20} />} title="見やすい入力画面" desc="他の家計簿アプリを使い倒し、最も見やすい画面を追求" />
               <FeaturePoint icon={<Gamepad2 size={20} />} title="収集癖を刺激" desc="全アイテムに固有のフレーバーテキストを用意。集めるのが楽しい。" />
-              <FeaturePoint icon={<Database size={20} />} title="完全オフライン" desc="Shared Preferencesを用いたローカル完結型。通信待ち時間なし。" />
-              <FeaturePoint icon={<Calculator size={20} />} title="独自計算ロジック" desc="小数点を排除しつつ税計算を実現した、こだわりのキーボード。" />
+              <FeaturePoint icon={<Database size={20} />} title="支払い管理機能" desc="クレジットカード支払額を管理できる機能も。家計簿アプリ史上初です。（僕調べ）" />
+              <FeaturePoint icon={<Calculator size={20} />} title="こだわりのキーボード" desc="保存した後にキーボードを閉じるのか、そのまま入力を続けるのか。取り消しもワンタップ。" />
             </div>
           </motion.div>
         </div>
@@ -100,12 +100,11 @@ export default function AtsumeruShowcase() {
                 UX Design
               </div>
               <h3 className="text-3xl font-bold text-stone-800">
-                「小数点」を捨てた、<br />
-                逆転の発想のキーボード
+                電卓機能、税計算機能完備
               </h3>
               <p className="text-stone-600 leading-loose">
-                家計簿において、小数点の入力ミスは計算誤差の元凶です。<br />
-                そこで、キーボードから「.（ドット）」を排除しました。<br />
+                従来の電卓機能のある家計簿においては税計算のために小数点を表示するのが標準でした。<br />
+                しかし、それでは何らかの理由で小数がデータに入り込んだときに型の不一致でアプリがクラッシュする恐れがあると考えました。<br />
                 代わりに実装したのが、<strong className="text-stone-800">「×」ボタンによる税計算トグル</strong>です。
               </p>
               <ul className="space-y-3 mt-4">
@@ -118,7 +117,7 @@ export default function AtsumeruShowcase() {
                 <li className="flex items-start gap-3">
                   <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                   <p className="text-stone-600 text-sm">
-                    <span className="font-bold text-stone-700">00ボタン → 1.1倍</span>：同時に00ボタンが「1.08」に変化。ワンタップで税込計算完了。
+                    <span className="font-bold text-stone-700">00ボタン → 1.1倍</span>：同時に00ボタンが「1.08」に変化。切り捨て、型チェックも入念に行い、ワンタップで安全に税込計算完了。
                   </p>
                 </li>
               </ul>
@@ -206,7 +205,7 @@ export default function AtsumeruShowcase() {
                  </h4>
                  <p className="text-stone-600 text-sm leading-relaxed">
                    初めてのユーザーが迷わないよう、「Tips（おまけページ）」を用意。
-                   機能の説明だけでなく、家計簿を続けるコツなども掲載し、アプリ全体の「親しみやすさ」を底上げしています。
+                   最初のチュートリアルで説明しきれなかった便利仕様も楽しく解説。
                  </p>
                </div>
                <div className="w-full md:w-1/3">
@@ -227,20 +226,20 @@ export default function AtsumeruShowcase() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <TechBlock 
-            title="Clean Architecture"
-            content="データ層とUI層を分離。将来的にFirebaseやSQLiteへ移行することになっても、UIコードへの影響を最小限に抑える設計にしています。"
+            title="僕的に大規模な開発。"
+            content="コードはフレームワーク部分を除いても6000行越え。ほぼすべてをAIに出力させています。後で記す方法で、複雑なコードでももれなくAIと共有してきました。開発期間は3週間程度。"
           />
           <TechBlock 
-            title="Mixins for Flash Messages"
-            content="`FlashMessageMixin` を作成し、複数の画面で共通して使う通知ロジックを共通化。コードの重複を防ぎ、メンテナンス性を向上させています。"
+            title="可読性の向上"
+            content="AIの書いたコードは可読性が低いと言われがちですが、都度都度リファクタリングを行い、data/、repositories/、models/など15のフォルダ、50のファイルにコンポーネント化し、可読性の向上を狙います。もちろんその作業もAIと。"
           />
           <TechBlock 
-            title="Robust Calculator Logic"
-            content="既存のライブラリに頼らず、`SimpleCalculator` クラスを自作。トークン解析を行い、家計簿特有の整数丸め処理を組み込んでいます。"
+            title="ローカル完結"
+            content="スマホのアプリ内メモリ、Shared Preferencesをデータの保管庫として用いているため、完全オフラインで使うことができます。"
           />
           <TechBlock 
-            title="Data Migration Strategy"
-            content="カテゴリ管理をIDベースへ移行した際、アプリ起動時に裏側でデータ構造を自動修復するメソッドを実装しました。"
+            title="オブジェクト指向の基礎を学習"
+            content="Flutter（ないしはDart）はJavaを基礎としたオブジェクト指向の言語です。model（クラス）を作り、それを実装して組み込んでいく経験は貴重なものでした。仕事の研修にも役立ったらいいな...なんちゃって。"
           />
         </div>
       </div>

@@ -41,7 +41,7 @@ export default function Hero() {
         transition={{ delay: 0.4 }}
         className="text-base sm:text-lg text-stone-600 max-w-2xl mb-10 leading-relaxed px-4"
       >
-        東大教育学部で心理学を学んでいました。
+        ご覧いただきありがとうございます。
         <br className="hidden sm:block" />
         趣味でAIを使ってアプリ開発をしています。
         <br />
