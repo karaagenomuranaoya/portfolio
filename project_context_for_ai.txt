@@ -16,9 +16,11 @@
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
+│   │   ├── LikeButton.tsx
 │   │   ├── ProjectCard.tsx
 │   │   ├── Projects.tsx
 │   │   ├── Skills.tsx
+│   │   ├── WakeUpApi.tsx
 │   │   └── ui
 │   ├── data
 │   │   ├── profile.ts
@@ -270,6 +272,7 @@ import { Inter } from "next/font/google"; // 必要ならNoto Serif JPなどに�
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import WakeUpApi from "./components/WakeUpApi";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -286,6 +289,9 @@ export default function RootLayout({
   return (
     <html lang="ja" className="scroll-smooth">
       <body className={`${inter.className} relative overflow-x-hidden`}>
+
+        <WakeUpApi />
+        
         {/* 背景の装飾効果（木漏れ日のような優しい光） */}
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
           {/* 左上の柔らかいオレンジ */}
@@ -315,6 +321,7 @@ import Projects from "./components/Projects";
 import AIChat from "./components/AIChat";
 import AtsumeruShowcase from "./components/AtsumeruShowcase";
 import AIWorkflow from "./components/AIWorkflow"; // 追加
+import LikeButton from "./components/LikeButton";
 
 export default function Home() {
   return (
@@ -332,6 +339,8 @@ export default function Home() {
       
       {/* 4. 人となり */}
       <About />
+
+      <LikeButton />
       
       <AIChat />
     </div>
@@ -1691,6 +1700,142 @@ function Badge({ icon, text, color }: { icon: React.ReactNode; text: string; col
 }
 ```
 
+## File: app/components/LikeButton.tsx
+```tsx
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Heart, Coffee, Server } from "lucide-react";
+
+export default function LikeButton() {
+  const [count, setCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false); // ローカルでのクリック演出用
+
+  // 環境変数からAPIのURLを取得
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/likes`;
+
+  // 初回ロード時に現在のいいね数を取得
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setCount(data.count);
+      } catch (error) {
+        console.error("API Error:", error);
+        // エラー時はとりあえずnullのままにするか、0を表示するか
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLikes();
+  }, [API_URL]);
+
+  // いいねボタンを押した時の処理
+  const handleLike = async () => {
+    // 楽観的UI更新（サーバーの応答を待たずに数字を増やす演出）
+    setIsLiked(true);
+    setCount((prev) => (prev !== null ? prev + 1 : 1));
+    setTimeout(() => setIsLiked(false), 1000); // 1秒後にハートのエフェクトを戻す
+
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+      });
+      // 本当はここでサーバーから最新の値を返してもらうのが確実だが、
+      // ユーザー体験優先でエラーがない限りは何もしない
+    } catch (error) {
+      console.error("Like Error:", error);
+      // エラーなら数字を戻すなどの処理を入れるとなお良い
+      setCount((prev) => (prev !== null ? prev - 1 : null));
+    }
+  };
+
+  return (
+    <section className="py-12 bg-stone-50 border-t border-stone-200">
+      <div className="max-w-4xl mx-auto px-4 text-center">
+        
+        {/* 技術アピールエリア */}
+        <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100/50 border border-orange-200 text-orange-800 text-xs font-mono">
+          <Server size={14} />
+          <span>Powered by Java (Spring Boot) on Render</span>
+        </div>
+
+        <h3 className="text-xl font-bold text-stone-700 mb-2">
+          気に入っていただけましたか？
+        </h3>
+        <p className="text-sm text-stone-500 mb-8">
+          このボタンは、Springで作成したバックエンドのJava APIと連携して動作しています。<br />
+          （無料サーバーのため、APIの起動には時間がかかります。あと、すぐにデータが吹っ飛びます。<br />
+          実はこのサイトにアクセスした時点で、APIにfetchリクエストを飛ばして「起こして」いるのですが<br />
+          それでも起動せず押せなかったらごめんなさい。もうちょっと待ったら起動する...かも？）
+        </p>
+
+        {/* ボタン本体 */}
+        <div className="relative inline-block">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleLike}
+            className="group relative flex items-center gap-4 px-8 py-4 bg-white border-2 border-stone-200 rounded-full shadow-sm hover:border-pink-300 hover:shadow-pink-100 transition-all duration-300"
+          >
+            {/* ハートアイコンのアニメーション */}
+            <div className="relative">
+              <Heart 
+                size={32} 
+                className={`transition-colors duration-300 ${isLiked ? "fill-pink-500 text-pink-500" : "text-stone-300 group-hover:text-pink-400"}`} 
+              />
+              <AnimatePresence>
+                {isLiked && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1.5, opacity: 1 }}
+                    exit={{ scale: 2, opacity: 0 }}
+                    className="absolute inset-0 text-pink-500"
+                  >
+                    <Heart size={32} className="fill-pink-500" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <div className="flex flex-col items-start">
+              <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">Total Likes</span>
+              {isLoading ? (
+                <div className="h-8 w-16 bg-stone-100 animate-pulse rounded mt-1" />
+              ) : (
+                <span className="text-3xl font-black text-stone-800 tabular-nums">
+                  {count !== null ? count.toLocaleString() : "-"}
+                </span>
+              )}
+            </div>
+          </motion.button>
+
+          {/* クリック時の+1エフェクト */}
+          <AnimatePresence>
+            {isLiked && (
+              <motion.span
+                initial={{ opacity: 1, y: -20, x: 0 }}
+                animate={{ opacity: 0, y: -60 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl font-bold text-pink-500 pointer-events-none"
+              >
+                +1
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+```
+
 ## File: app/components/ProjectCard.tsx
 ```tsx
 "use client";
@@ -1931,6 +2076,36 @@ export default function Projects() {
 
 ```
 
+## File: app/components/WakeUpApi.tsx
+```tsx
+"use client";
+
+import { useEffect } from "react";
+
+export default function WakeUpApi() {
+  useEffect(() => {
+    // 開発環境(localhost)では無駄な起動を防ぐため実行しない（任意）
+    if (process.env.NODE_ENV === "development") return;
+
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    if (!API_URL) return;
+
+    // "Fire and Forget"（撃ちっ放し）
+    // 結果を受け取る必要はない。ただアクセスして「起きろ！」と伝えるだけ。
+    fetch(`${API_URL}/api/likes`, { mode: 'no-cors' })
+      .catch(() => {
+        // エラーが出ても無視する（ユーザーには関係ないため）
+        // コンソールも汚さないように何もしない
+      });
+      
+    console.log("🔥 Java API Pre-warming triggered...");
+  }, []);
+
+  // 画面には何も描画しない
+  return null;
+}
+```
+
 ## File: app/lib/gemini.ts
 ```ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -2022,7 +2197,9 @@ export const profile = {
 
     このサイトを作ったりとカッコつけてはいますが、実際はコードもあまりわからず、AIに頼るところの多い、そしてでしゃばりの未熟者です。だからこそ、もっと確かな技術を身につけたい。
 
-    2026年春に、神奈川県内のSIer企業に就職予定です。仕事では、多様な技術やユーザー体験の向上にこだわれる環境に惹かれています。様々な技術スタックを用いた開発がとても楽しかったこと、細かなユーザー体験にこだわり、自分が使いたいと思えるようなプロダクトを作る喜びにもっと触れたいことが理由です。
+    2026年春から、神奈川県内のSIer企業にてエンジニアとしてのキャリアをスタートする予定です。個人開発を通して、モダンな技術スタックを駆使し、プロダクトを創り上げるプロセスに強く惹きつけられました。
+
+    仕事において僕が最も大切にしたいのは、お客様の要望を形にするだけでなく、その一歩先にある「どんな機能やUXがあればユーザーの日常がより便利で楽しくなるか」を自ら考え、実装に落とし込むことです。ゆくゆくは、誰もが当たり前に使う社会インフラの領域において、技術で新たな価値を創造し、自らの手で育てていけるようなサービス開発の最前線に立ちたいと考えています。
 
     技術と人間関係、そしてユーモアを大切に、一人前のエンジニアになっていければと思います。読んでいただき本当にありがとうございました！
 
