@@ -8,8 +8,8 @@ import WakeUpApi from "./components/WakeUpApi";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Naoya Nomura | AI-Driven Product Engineer",
-  description: "企画から実装までをAIと共に駆け抜けるプロダクトエンジニアのポートフォリオ",
+  title: "野村直矢のポートフォリオ",
+  description: "コードをあまり書けない学生が、AIを使って製作した試作品の置き場です。",
 };
 
 export default function RootLayout({

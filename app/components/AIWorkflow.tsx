@@ -55,7 +55,8 @@ export default function AIWorkflow() {
                 <h3 className="text-2xl font-bold text-stone-800">最新モデルで「対話型」開発</h3>
               </div>
               <p className="text-stone-600 leading-loose mb-6">
-                一般的なチャットボットではなく、Google AI Studioを活用。
+                自分はまだコード勉強中の身であり、コーディングは主にAIが担当。
+                一般的なチャットボットではなく、Google AI Studioを活用しています。
                 System Instructionで役割を定義し、Gemini 3.1 Proの長いコンテキストウィンドウを活かして、ワクワクする機能を考えたり、具体的なコードを出力したり。相棒と二人三脚で開発を進めます。
               </p>
               <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
