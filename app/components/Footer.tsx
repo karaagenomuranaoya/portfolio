@@ -26,7 +26,10 @@ export default function Footer() {
           <h3 className="text-xl font-bold text-stone-700 mb-2">Naoya Nomura</h3>
           <p className="text-sm">
             &copy; {new Date().getFullYear()} All rights reserved.
-            <br className="sm:hidden" /> Built with Next.js, Tailwind & AI Co-pilot.
+            <br className="sm:hidden" /> Built with Next.js, Tailwind & Gemini
+          </p>
+          <p className="text-sm">
+            <br className="sm:hidden" /> なお、このポートフォリオは私が就職を予定する会社の配属希望アンケートへの回答の参考資料として作成したものです。閲覧できるのは現状URLをお送りした社内の方のみに限られます。
           </p>
         </div>
 
