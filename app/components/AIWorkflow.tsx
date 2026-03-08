@@ -125,8 +125,8 @@ export default function AIWorkflow() {
             />
             <InfoCard 
               icon={<Wrench className="text-blue-500" />}
-              title="技術への好奇心"
-              desc="Flutter, Next.js,Pythonは触れた、次はAWS？Spring？もっともっと身につけたい！技術への飽くなき探究も、彼に教わりました。きっともっと面白い技術が世界には溢れてるはず！"
+              title="でもやっぱ自分で学ばなきゃ"
+              desc="AIがいないと書けない...というコンプレックスも少なからずあります。仕事をしながら、自分で学びながら、本物の技術を少しずつ身につけていきたいな。"
             />
           </div>
 
