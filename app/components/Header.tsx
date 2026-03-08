@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navItems = [
+  { name: "N-NOBLESSE", href: "#latest-work"},
   { name: "あつめる家計簿", href: "#atsumeru" },
   { name: "その他の作品", href: "#projects" },
   { name: "僕自身について", href: "#about"}

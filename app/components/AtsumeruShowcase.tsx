@@ -16,7 +16,7 @@ export default function AtsumeruShowcase() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 text-sm font-bold tracking-wide mb-6">
-            Latest & Best Work
+            Best Work
           </span>
           <h2 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-stone-800 mb-6 tracking-tight leading-tight">
             あつめる家計簿

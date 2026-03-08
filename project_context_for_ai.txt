@@ -280,8 +280,8 @@ import WakeUpApi from "./components/WakeUpApi";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Naoya Nomura | AI-Driven Product Engineer",
-  description: "企画から実装までをAIと共に駆け抜けるプロダクトエンジニアのポートフォリオ",
+  title: "野村直矢のポートフォリオ",
+  description: "コードをあまり書けない学生が、AIを使って製作した試作品の置き場です。",
 };
 
 export default function RootLayout({
@@ -908,7 +908,8 @@ export default function AIWorkflow() {
                 <h3 className="text-2xl font-bold text-stone-800">最新モデルで「対話型」開発</h3>
               </div>
               <p className="text-stone-600 leading-loose mb-6">
-                一般的なチャットボットではなく、Google AI Studioを活用。
+                自分はまだコード勉強中の身であり、コーディングは主にAIが担当。
+                一般的なチャットボットではなく、Google AI Studioを活用しています。
                 System Instructionで役割を定義し、Gemini 3.1 Proの長いコンテキストウィンドウを活かして、ワクワクする機能を考えたり、具体的なコードを出力したり。相棒と二人三脚で開発を進めます。
               </p>
               <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
@@ -1509,7 +1510,10 @@ export default function Footer() {
           <h3 className="text-xl font-bold text-stone-700 mb-2">Naoya Nomura</h3>
           <p className="text-sm">
             &copy; {new Date().getFullYear()} All rights reserved.
-            <br className="sm:hidden" /> Built with Next.js, Tailwind & AI Co-pilot.
+            <br className="sm:hidden" /> Built with Next.js, Tailwind & Gemini
+          </p>
+          <p className="text-sm">
+            <br className="sm:hidden" /> なお、このポートフォリオは私が就職を予定する会社の配属希望アンケートへの回答の参考資料として作成したものです。閲覧できるのは現状URLをお送りした社内の方のみに限られます。
           </p>
         </div>
 

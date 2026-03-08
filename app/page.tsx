@@ -5,12 +5,16 @@ import AIChat from "./components/AIChat";
 import AtsumeruShowcase from "./components/AtsumeruShowcase";
 import AIWorkflow from "./components/AIWorkflow"; // 追加
 import LikeButton from "./components/LikeButton";
+import NNoblesseShowcase from "./components/NNoblesseShowcase"; // ← 追加
 
 export default function Home() {
   return (
     <div className="w-full flex flex-col relative">
       <Hero />
       
+      {/* 0. 最新のフロントエンド実装ショーケース */}
+      <NNoblesseShowcase />
+
       {/* 1. メインプロダクトで実力を証明 */}
       <AtsumeruShowcase />
 
