@@ -35,7 +35,8 @@ export default function NNoblesseShowcase() {
               </h2>
               <p className="text-lg text-gray-400 leading-relaxed">
                 設定も規約もすべて架空。<br className="hidden sm:block" />
-                AIで作ったクレジットカード申込UI体験ページ。
+                AIで作ったクレジットカード申込UI体験ページ。<br/>
+                （注意書きを読んでもらうために申込ボタンは一番下にあります。）
               </p>
             </div>
 
