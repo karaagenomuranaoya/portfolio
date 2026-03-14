@@ -11,9 +11,6 @@ export default function Home() {
   return (
     <div className="w-full flex flex-col relative">
       <Hero />
-      
-      {/* 0. 最新のフロントエンド実装ショーケース */}
-      <NNoblesseShowcase />
 
       {/* 1. メインプロダクトで実力を証明 */}
       <AtsumeruShowcase />
